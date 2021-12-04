@@ -14,45 +14,25 @@ def score(number: int, board: torch.Tensor):
 
 
 def part_one(numbers: list[int], boards: torch.Tensor):
-    skip_checks = 4  # Skip checking win for first 4, as they won't bingo
     for number in numbers:
         boards[boards == number + 1] = 0  # Zero out the drawn number
 
-        if skip_checks:
-            skip_checks -= 1
-            continue
+        winners = (remaining(boards) == 0).nonzero()
 
-        remain = remaining(boards)
-        winners = (remain == 0).nonzero()
-
-        if len(winners) > 0:
+        if len(winners):
             return score(number, boards[winners.squeeze()])
-
-        skip_checks = remain.min().tolist() - 1
 
 
 def part_two(numbers: list[int], boards: torch.Tensor):
-    skip_checks = 4
-    last_board = None
-
     for number in numbers:
         boards[boards == number + 1] = 0
 
-        if skip_checks:
-            skip_checks -= 1
-            continue
-
-        remain = remaining(boards)
-        non_winners = (remain != 0).nonzero()
+        non_winners = (remaining(boards) != 0).nonzero()
 
         if len(non_winners) == 1:
             last_board = non_winners.squeeze().tolist()
-
-        if len(non_winners) == 0:
-            assert last_board, "Multiple boards won last"
+        elif len(non_winners) == 0:
             return score(number, boards[last_board])
-
-        skip_checks = remain.max().tolist() - 1  # Skip a LOT of checks
 
 
 with open("day04/input.txt") as f:

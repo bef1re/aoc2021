@@ -1,5 +1,5 @@
-# aoc2021
-Advent of Code 2021
+# Advent of Code 2021
+My solutions to the Advent of Code - https://adventofcode.com/
 
 To me, this advent(ure) is all about learning new techniques and concepts every day.
 I'm trying to get out of my comfort zone and use things that are new for me, to just
